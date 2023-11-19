@@ -18,14 +18,26 @@ include 'conexion.php';
             <input type="number" id="cedula_pre" name="cedula_pre" class="form-control mb-4" placeholder="Cedula del cliente" min="0" required>
 
             <!-- titulo -->
-            <input type="text" id="titulo_pre" name="titulo_pre" class="form-control mb-4" placeholder="Titulo del libro" required>
+            <label for="libro_pre" class="form-label">Selecciona un libro:</label>
+            <select class="form-select" name="libro_pre" id="libro_pre" required>
+                <?php
+                    include 'conexion.php';
+                    $sql = "SELECT ID_libro, Titulo_libro FROM libro";
+                    $result = $conn->query($sql);
 
-            <!-- editorial -->
-            <input type="text" id="editorial_pre" name="editorial_pre" class="form-control mb-4" placeholder="Editorial del libro" required>
+                    // Llena la lista desplegable con los nombres de los libros
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['ID_libro'] . "'>" . $row['Titulo_libro'] . "</option>";
+                    }
+                ?>
+            </select>
 
             <!-- fecha -->
-            <label class="text" for="fecha_pre">Tiempo de prestamo</label>
+            <br><label class="text" for="fecha_pre">Fecha de prestamo</label>
             <input type="date" id="fecha_pre" name="fecha_pre" class="form-control mb-4" placeholder="Editorial del libro" required>
+
+            <br><label class="text" for="fecha_dev">Fecha de devolucion</label>
+            <input type="date" id="fecha_dev" name="fecha_dev" class="form-control mb-4" placeholder="Editorial del libro" required>
 
         </div>
         <!-- Cierra Columna -->

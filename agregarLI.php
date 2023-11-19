@@ -33,4 +33,18 @@ if ($conn->query($sql) === TRUE) {
 
 $conn->close();
 
+$mensaje_exito = "Libro agregado con éxito";
 ?>
+
+<script>
+        // Función para redirigir al formulario
+        function redireccionarAFormulario() {
+            window.location.href = 'Agregar_libro.php';
+        }
+
+        // Función para mostrar la notificación
+        window.onload = function() {
+            alert("<?php echo $mensaje_exito; ?>");
+            redireccionarAFormulario();
+        };
+</script>

@@ -170,6 +170,23 @@ function obtenerRutaFotoUsuario($usuario_id) {
       </form>
     </div>
 
+    <!-- Notifications -->
+    <?php
+    if (isset($_SESSION['usuario_nombre'])) {
+        // Muestra el espacio para notificaciones solo si el usuario ha iniciado sesión
+        echo '
+            <div class="dropdown">
+                <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge rounded-pill badge-notification bg-danger" id="notificationCount">1</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink" id="notificationList">
+                    <!-- Aquí se mostrarán las notificaciones dinámicamente -->
+                </ul>
+            </div>';
+    }
+    ?>
+
     <!-- Elementos lado derecho -->
     <?php mostrarOpcionesAvatar(); ?>
     <!-- Elementos lado derecho -->
@@ -178,7 +195,40 @@ function obtenerRutaFotoUsuario($usuario_id) {
 </nav>
 <!-- Navbar -->
 
-<!-- ... (resto de tu contenido) ... -->
+<script>
+function cargarNotificaciones() {
+    console.log('Intentando cargar notificaciones...');
+    fetch('notificaciones.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respuesta recibida:', data);
+
+            if (data.error) {
+                console.error('Error en la respuesta:', data.error);
+            } else if (Array.isArray(data)) {
+                document.getElementById('notificationCount').innerText = data.length;
+                document.getElementById('notificationList').innerHTML = '';
+
+                data.forEach(notificacion => {
+                    var listItem = document.createElement('li');
+                    listItem.innerHTML = '<a class="dropdown-item" href="#">' + notificacion.mensaje + '</a>';
+                    document.getElementById('notificationList').appendChild(listItem);
+                });
+            } else {
+                console.error('Respuesta inesperada:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error al cargar las notificaciones:', error);
+        });
+}
+
+window.onload = function () {
+    console.log('Página cargada. Cargando notificaciones...');
+    cargarNotificaciones();
+};
+</script>
+
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2023 a las 08:38:52
+-- Tiempo de generación: 20-11-2023 a las 04:26:51
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -50,7 +50,9 @@ INSERT INTO `historial_libros_visitados` (`id_historial`, `id_usuario`, `id_libr
 (13, 11, 16, '2023-11-19 07:22:03'),
 (14, 11, 20, '2023-11-19 07:22:08'),
 (15, 11, 13, '2023-11-19 07:22:13'),
-(16, 11, 9, '2023-11-19 07:22:28');
+(16, 11, 9, '2023-11-19 07:22:28'),
+(17, 10, 17, '2023-11-19 16:45:48'),
+(20, 10, 21, '2023-11-19 19:59:52');
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,26 @@ INSERT INTO `libro` (`ID_libro`, `Titulo_libro`, `Autor_libro`, `Editorial_libro
 (17, 'It (Eso)', 'Stephen King', 'Debolsillo', 1504, 0x706f7274616461732f69742e77656270),
 (18, 'El resplandor', 'Stephen King', 'Debolsillo', 270, 0x706f7274616461732f726573706c616e646f722e77656270),
 (19, 'Cujo', 'Stephen King', 'Debolsillo', 400, 0x706f7274616461732f576861747341707020496d61676520323032332d31312d313520617420342e34362e313520504d2e6a706567),
-(20, 'La Niebla', 'Stephen King', 'Debolsillo', 314, 0x706f7274616461732f6c61206e6965626c612e77656270);
+(20, 'La Niebla', 'Stephen King', 'Debolsillo', 314, 0x706f7274616461732f6c61206e6965626c612e77656270),
+(21, 'Doctor sueño', 'Stephen King', 'Debolsillo', 608, 0x706f7274616461732f646f63746f72207375656e6f2e77656270),
+(25, 'Carrie', 'Stephen King', 'Debolsillo', 256, 0x706f7274616461732f6361727269652e77656270),
+(26, 'Apocalipsis', 'Stephen King', 'Debolsillo', 256, 0x706f7274616461732f41706f63616c69707369732e77656270),
+(27, 'Cell', 'Stephen King', 'Debolsillo', 434, 0x706f7274616461732f43656c6c2e77656270);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `notificaciones_usuarios`
+--
+
+CREATE TABLE `notificaciones_usuarios` (
+  `id_notificacion` int(11) NOT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  `mensaje` varchar(255) NOT NULL,
+  `id_libro` int(11) DEFAULT NULL,
+  `leida` tinyint(1) NOT NULL DEFAULT 0,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -145,6 +166,14 @@ ALTER TABLE `libro`
   ADD PRIMARY KEY (`ID_libro`);
 
 --
+-- Indices de la tabla `notificaciones_usuarios`
+--
+ALTER TABLE `notificaciones_usuarios`
+  ADD PRIMARY KEY (`id_notificacion`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_libro` (`id_libro`);
+
+--
 -- Indices de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
@@ -166,13 +195,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `historial_libros_visitados`
 --
 ALTER TABLE `historial_libros_visitados`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `libro`
 --
 ALTER TABLE `libro`
-  MODIFY `ID_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `ID_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT de la tabla `notificaciones_usuarios`
+--
+ALTER TABLE `notificaciones_usuarios`
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
@@ -196,6 +231,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `historial_libros_visitados`
   ADD CONSTRAINT `historial_libros_visitados_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
   ADD CONSTRAINT `historial_libros_visitados_ibfk_2` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`ID_libro`);
+
+--
+-- Filtros para la tabla `notificaciones_usuarios`
+--
+ALTER TABLE `notificaciones_usuarios`
+  ADD CONSTRAINT `notificaciones_usuarios_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `notificaciones_usuarios_ibfk_2` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`ID_libro`);
 
 --
 -- Filtros para la tabla `prestamos`

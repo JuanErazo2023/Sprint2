@@ -114,3 +114,4 @@ include 'conexion.php';
 <?php include 'historial.php'; ?>
 
 </body>
+

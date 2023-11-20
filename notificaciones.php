@@ -25,4 +25,3 @@ echo json_encode($notificaciones);
 
 $conn->close();
 ?>
-
